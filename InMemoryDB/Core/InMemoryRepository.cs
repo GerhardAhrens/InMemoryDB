@@ -42,6 +42,17 @@ namespace InMemoryDB.Core
             return result;
         }
 
+        public List<TDomain> GetAll()
+        {
+            List<TDomain> result = null;
+            if (this.memorySource != null)
+            {
+                //result = this.memorySource.Select(s => s.Value);
+            }
+
+            return result;
+        }
+
         public TDomain FindById(Guid id)
         {
             TDomain result = default(TDomain);
