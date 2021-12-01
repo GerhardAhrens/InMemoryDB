@@ -5,6 +5,19 @@
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon />
     <StartupObject />
+    <Version>1.0.2021.1</Version>
+    <Authors>Gerhard Ahrens</Authors>
+    <Company>lifeprojects.de</Company>
+    <Description>Storing objects in a memory database via a repository</Description>
+    <Copyright>Copyright (c) 2021 Gerhard Ahrens</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
