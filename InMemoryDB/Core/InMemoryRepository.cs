@@ -25,7 +25,7 @@ namespace InMemoryDB.Core
             this.memorySource = new List<SerializableKeyValuePair<Type,TDomain>>(); 
         }
 
-        public int CountAll()
+        public int Count()
         {
             return this.memorySource.Count;
         }
