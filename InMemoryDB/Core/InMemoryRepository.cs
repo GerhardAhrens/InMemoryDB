@@ -42,12 +42,12 @@ namespace InMemoryDB.Core
             return result;
         }
 
-        public List<TDomain> GetAll()
+        public List<TDomain> FindAll()
         {
             List<TDomain> result = null;
             if (this.memorySource != null)
             {
-                //result = this.memorySource.Select(s => s.Value);
+                result = this.memorySource.Select(s => s.Value).ToList<TDomain>();
             }
 
             return result;
