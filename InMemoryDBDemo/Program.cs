@@ -35,11 +35,11 @@
             DemoClassShort result1 = repository.FindById(dom.Id);
             Console.WriteLine($"Result:{result1.ClassName};Id={result1.Id}");
 
-            dom.ClassName = "Test-B";
-            Console.WriteLine($"Update:{dom.ClassName};Id={dom.Id}");
-            repository.Update(dom);
+            result1.ClassName = "Test-B";
+            Console.WriteLine($"Update:{result1.ClassName};Id={result1.Id}");
+            repository.Update(result1);
             Console.WriteLine($"Count={repository.CountByType()}", ConsoleColor.Yellow);
-            DemoClassShort result2 = repository.FindById(dom.Id);
+            DemoClassShort result2 = repository.FindById(result1.Id);
             Console.WriteLine($"Result:{result2.ClassName};Id={result2.Id}");
 
             /*repository.DeleteAllByType();*/

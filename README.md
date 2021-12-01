@@ -26,4 +26,18 @@ InMemoryRepository<DemoClassShort> repository = new InMemoryRepository<DemoClass
 repository.Add(dom);
 
 ```
+### Update Item in Repository
+```
+DemoClassShort dom = new DemoClassShort();
+dom.Id = Guid.NewGuid();
+dom.ClassName = "Test-1-A";
 
+/* Store in Repository */
+InMemoryRepository<DemoClassShort> repository = new InMemoryRepository<DemoClassShort>();
+repository.Add(dom);
+
+DemoClassShort result1 = repository.FindById(dom.Id);
+result1.ClassName = "Test-B";
+repository.Update(result1);
+
+```
