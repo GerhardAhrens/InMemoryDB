@@ -1,5 +1,5 @@
 # InMemoryDB
-<img src="./InMemoryDB.png"/>
+<img src="./InMemoryDB.png" style="width:100px;"/>
 
 Storing objects in a memory database via a repository
 Different methods are provided to simulate the work with a database table. The editing is done via the methods Add(), Update(), Delete() etc. directly in the memory (without database). If necessary, the current content can also be saved as an XML file and loaded again.
