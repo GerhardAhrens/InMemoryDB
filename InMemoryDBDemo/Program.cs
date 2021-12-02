@@ -26,8 +26,10 @@
             repository.Add(dom2);
             Console.WriteLine($"Count={repository.CountByType()}", ConsoleColor.Yellow);
 
-            List<DemoClassShort> itemAll = repository.FindAll();
-            Console.WriteLine($"Count in List={itemAll.Count}", ConsoleColor.Yellow);
+            IEnumerable<DemoClassShort> itemAll = repository.FindAll();
+            Console.WriteLine($"Count in List={itemAll.TryCount()}", ConsoleColor.Yellow);
+
+            IEnumerable<DemoClassShort> itemBy = repository.FindBy(f => f.ClassName == "Test-2-A");
 
             /*
             repository.SaveContent(@"c:\temp\test.xml");

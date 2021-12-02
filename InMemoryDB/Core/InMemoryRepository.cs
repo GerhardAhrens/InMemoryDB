@@ -25,6 +25,7 @@ namespace InMemoryDB.Core
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
     using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace InMemoryDB.Core
             return result;
         }
 
-        public List<TDomain> FindAll()
+        public IEnumerable<TDomain> FindAll()
         {
             List<TDomain> result = null;
             if (this.memorySource != null)
@@ -82,6 +83,12 @@ namespace InMemoryDB.Core
             }
 
             return result;
+        }
+
+        public IEnumerable<TDomain> FindBy(Expression<Func<TDomain, bool>> predicate)
+        {
+            IQueryable<TDomain> src = this.memorySource.Select(s => s.Value).AsQueryable();
+            return src.Where(predicate);
         }
 
         public void Add(TDomain domainObj)

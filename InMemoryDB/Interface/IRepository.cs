@@ -27,7 +27,7 @@ namespace InMemoryDB.Interface
 
         TDomain FindById(Guid id);
 
-        List<TDomain> FindAll();
+        IEnumerable<TDomain> FindAll();
 
         void Add(TDomain domainObj);
 
