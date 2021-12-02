@@ -12,7 +12,7 @@
     /// </summary>
     [DebuggerDisplay("Id={this.Id}; ClassName={this.ClassName}")]
     [Serializable]
-    public class DemoClassShort : IDomainRoot
+    public class DemoClassShort : IEntityRoot
     {
         /// <summary>
         /// Konstruktor ohne Parameter

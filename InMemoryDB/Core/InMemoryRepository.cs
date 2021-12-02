@@ -1,4 +1,20 @@
-﻿#pragma warning disable CS1591
+﻿//-----------------------------------------------------------------------
+// <copyright file="InMemoryRepository.cs" company="Lifeprojects.de">
+//     Class: InMemoryRepository
+//     Copyright © Lifeprojects.de 2021
+// </copyright>
+//
+// <author>Gerhard Ahrens - Lifeprojects.de</author>
+// <email>gerhard.ahrens@lifeprojects.de</email>
+// <date>01.12.2021</date>
+//
+// <summary>
+// Klasse stellt eine Möglichkeit zum zum Simulieren und testen von Objekten
+// beim bearbeiten über ein Repository zur Verfügung.
+// </summary>
+//-----------------------------------------------------------------------
+
+#pragma warning disable CS1591
 
 namespace InMemoryDB.Core
 {
@@ -16,7 +32,7 @@ namespace InMemoryDB.Core
     using System.Xml.Schema;
     using System.Xml.Serialization;
 
-    public class InMemoryRepository<TDomain> : IRepository<TDomain> where TDomain : IDomainRoot
+    public class InMemoryRepository<TDomain> : IRepository<TDomain> where TDomain : IEntityRoot
     {
         private List<SerializableKeyValuePair<Type,TDomain>> memorySource = null;
 
