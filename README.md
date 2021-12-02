@@ -2,7 +2,9 @@
 <img src="./InMemoryDB.png" style="width:100px;"/>
 
 Storing objects in a memory database via a repository
+InMemoryDB is a simple way to manage an object through a repository without storing the individual properties on a database. The different database operations can be simulated with InMemoryDB.
 Different methods are provided to simulate the work with a database table. The editing is done via the methods Add(), Update(), Delete() etc. directly in the memory (without database). If necessary, the current content can also be saved as an XML file and loaded again.
+It is possible to edit an object with a repository. Connected objects in one repository are not possible.
 
 ## The repository class provides the following methods
 #### Count()
