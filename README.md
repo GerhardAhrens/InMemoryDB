@@ -12,7 +12,7 @@ Different methods are provided to simulate the work with a database table. The e
 #### Update(T)
 #### Delete(T)
 #### DeleteAll()
-#### Exist()
+#### Exist(T)
 #### ExistById(Guid id)
 #### SaveContent(string filename)
 #### LoadContent(string filename)
