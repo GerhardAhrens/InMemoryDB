@@ -3,12 +3,14 @@
     using InMemoryDB.Interface;
 
     using System;
+    using System.Diagnostics;
     using System.Xml.Serialization;
 
 
     /// <summary>
     /// Eine kleine Demo Klasse
     /// </summary>
+    [DebuggerDisplay("Id={this.Id}; ClassName={this.ClassName}")]
     [Serializable]
     public class DemoClassShort : IDomainRoot
     {

@@ -3,6 +3,7 @@
     using InMemoryDB.Core;
 
     using System;
+    using System.Collections.Generic;
 
     public class Program
     {
@@ -24,6 +25,9 @@
             Console.WriteLine($"Add: {dom2.ClassName}");
             repository.Add(dom2);
             Console.WriteLine($"Count={repository.CountByType()}", ConsoleColor.Yellow);
+
+            List<DemoClassShort> itemAll = repository.FindAll();
+            Console.WriteLine($"Count in List={itemAll.Count}", ConsoleColor.Yellow);
 
             /*
             repository.SaveContent(@"c:\temp\test.xml");

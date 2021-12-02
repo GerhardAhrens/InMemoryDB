@@ -7,11 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InMemoryDB", "InMemoryDB\In
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C952EEC7-3316-4853-B036-85C07D5FA1B2}"
 	ProjectSection(SolutionItems) = preProject
+		InMemoryDB.png = InMemoryDB.png
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemoryDBDemo", "InMemoryDBDemo\InMemoryDBDemo.csproj", "{9F15DB23-47D6-452C-9BC1-88C1ECD06139}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InMemoryDBDemo", "InMemoryDBDemo\InMemoryDBDemo.csproj", "{9F15DB23-47D6-452C-9BC1-88C1ECD06139}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
