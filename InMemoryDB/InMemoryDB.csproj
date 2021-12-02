@@ -11,6 +11,9 @@
     <Description>Storing objects in a memory database via a repository</Description>
     <Copyright>Copyright (c) 2021 Gerhard Ahrens</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Lifeprojects.de.pfx</AssemblyOriginatorKeyFile>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
