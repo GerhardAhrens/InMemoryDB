@@ -4,6 +4,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class Program
     {
@@ -25,6 +26,8 @@
             Console.WriteLine($"Add: {dom2.ClassName}");
             repository.Add(dom2);
             Console.WriteLine($"Count={repository.CountByType()}", ConsoleColor.Yellow);
+
+            int tryCount = repository.FindAll().ToList().TryCount();
 
             IEnumerable<DemoClassShort> itemAll = repository.FindAll();
             Console.WriteLine($"Count in List={itemAll.TryCount()}", ConsoleColor.Yellow);

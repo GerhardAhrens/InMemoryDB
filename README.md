@@ -12,6 +12,7 @@ It is possible to edit an object with a repository. Connected objects in one rep
 #### Count()
 #### FindById(Guid id)
 #### FindAll()
+#### FindBy(<Expression>)
 #### Add(T)
 #### Update(T)
 #### Delete(T)
@@ -94,5 +95,28 @@ repository.DeleteAll();
 
 // Count one item
 repository.LoadContent(@"c:\temp\test.xml");
+
+```
+### FindBy item by Expression in Repository
+```
+DemoClassShort dom = new DemoClassShort();
+dom.Id = Guid.NewGuid();
+dom.ClassName = "Test-1-A";
+
+/* Store in Repository */
+InMemoryRepository<DemoClassShort> repository = new InMemoryRepository<DemoClassShort>();
+repository.Add(dom);
+
+dom = new DemoClassShort();
+dom.Id = Guid.NewGuid();
+dom.ClassName = "Test-2-A";
+repository.Add(dom);
+
+dom = new DemoClassShort();
+dom.Id = Guid.NewGuid();
+dom.ClassName = "Test-3-C";
+repository.Add(dom);
+
+IEnumerable<DemoClassShort> itemBy = repository.FindBy(f => f.ClassName == "Test-2-A");
 
 ```
