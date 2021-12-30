@@ -2,6 +2,8 @@
 {
     using InMemoryDB.Core;
 
+    using InMemoryDBDemo.Repository;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -14,7 +16,7 @@
             dom.Id = Guid.NewGuid();
             dom.ClassName = "Test-1-A";
 
-            InMemoryRepository<DemoClassShort> repository = new InMemoryRepository<DemoClassShort>();
+            DemoClassShortRepository repository = new DemoClassShortRepository();
             Console.WriteLine($"Count={repository.CountByType()}", ConsoleColor.Yellow);
             Console.WriteLine($"Add: {dom.ClassName}");
             repository.Add(dom);

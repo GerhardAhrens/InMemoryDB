@@ -1,12 +1,12 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="InMemoryRepository.cs" company="Lifeprojects.de">
-//     Class: InMemoryRepository
+// <copyright file="InMemoryRepositoryBase.cs" company="Lifeprojects.de">
+//     Class: InMemoryRepositoryBase
 //     Copyright © Lifeprojects.de 2021
 // </copyright>
 //
 // <author>Gerhard Ahrens - Lifeprojects.de</author>
 // <email>gerhard.ahrens@lifeprojects.de</email>
-// <date>01.12.2021</date>
+// <date>30.12.2021</date>
 //
 // <summary>
 // Klasse stellt eine Möglichkeit zum zum Simulieren und testen von Objekten
@@ -33,21 +33,23 @@ namespace InMemoryDB.Core
     using System.Xml.Schema;
     using System.Xml.Serialization;
 
-    public class InMemoryRepository<TDomain> : IRepository<TDomain> where TDomain : IEntityRoot
+    public abstract class InMemoryRepositoryBase<TDomain> : IRepository<TDomain> where TDomain : IEntityRoot
     {
         private List<SerializableKeyValuePair<Type,TDomain>> memorySource = null;
 
-        public InMemoryRepository()
+        protected InMemoryRepositoryBase()
         {
             this.memorySource = new List<SerializableKeyValuePair<Type,TDomain>>(); 
         }
+
+        public List<SerializableKeyValuePair<Type, TDomain>> MemorySource { get { return this.memorySource; } }
 
         public int Count()
         {
             return this.memorySource.Count;
         }
 
-        public int CountByType()
+        public virtual int CountByType()
         {
             int result = 0;
             if (memorySource != null)
@@ -70,20 +72,7 @@ namespace InMemoryDB.Core
             return result;
         }
 
-        public TDomain FindById(Guid id)
-        {
-            TDomain result = default(TDomain);
-
-            if (this.memorySource != null)
-            {
-                if (this.memorySource.Any(a => a.Value.Id == id))
-                {
-                    result = this.memorySource.Where(w => w.Value.Id == id).FirstOrDefault().Value;
-                }
-            }
-
-            return result;
-        }
+        public abstract TDomain FindById(Guid id);
 
         public IEnumerable<TDomain> FindBy(Expression<Func<TDomain, bool>> predicate)
         {
