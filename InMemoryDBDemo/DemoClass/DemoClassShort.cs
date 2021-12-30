@@ -39,6 +39,8 @@
         /// </summary>
         public string ClassName { get; set; }
 
+        public string[] TextContent { get; set; }
+
         /// <summary>
         /// Klasseninhalt als String zurückgeben
         /// </summary>

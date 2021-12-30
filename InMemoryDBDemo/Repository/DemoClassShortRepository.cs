@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -10,6 +11,17 @@
 
     internal class DemoClassShortRepository : InMemoryRepositoryBase<DemoClassShort>
     {
+        public override IEnumerable<DemoClassShort> FindAll()
+        {
+            List<DemoClassShort> result = null;
+            if (this.MemorySource != null)
+            {
+                result = this.MemorySource.Select(s => s.Value).ToList<DemoClassShort>();
+            }
+
+            return result;
+        }
+
         public override DemoClassShort FindById(Guid id)
         {
             DemoClassShort result = default(DemoClassShort);
@@ -23,6 +35,12 @@
             }
 
             return result;
+        }
+
+        public override IEnumerable<DemoClassShort> FindBy(Expression<Func<DemoClassShort, bool>> predicate)
+        {
+            IQueryable<DemoClassShort> src = this.MemorySource.Select(s => s.Value).AsQueryable();
+            return src.Where(predicate);
         }
     }
 }

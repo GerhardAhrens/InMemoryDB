@@ -18,20 +18,14 @@
 
 namespace InMemoryDB.Core
 {
-    using InMemoryDB.Interface;
-
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Xml;
-    using System.Xml.Schema;
     using System.Xml.Serialization;
+
+    using InMemoryDB.Interface;
 
     public abstract class InMemoryRepositoryBase<TDomain> : IRepository<TDomain> where TDomain : IEntityRoot
     {
@@ -61,26 +55,13 @@ namespace InMemoryDB.Core
             return result;
         }
 
-        public IEnumerable<TDomain> FindAll()
-        {
-            List<TDomain> result = null;
-            if (this.memorySource != null)
-            {
-                result = this.memorySource.Select(s => s.Value).ToList<TDomain>();
-            }
-
-            return result;
-        }
+        public abstract IEnumerable<TDomain> FindAll();
 
         public abstract TDomain FindById(Guid id);
 
-        public IEnumerable<TDomain> FindBy(Expression<Func<TDomain, bool>> predicate)
-        {
-            IQueryable<TDomain> src = this.memorySource.Select(s => s.Value).AsQueryable();
-            return src.Where(predicate);
-        }
+        public abstract IEnumerable<TDomain> FindBy(Expression<Func<TDomain, bool>> predicate);
 
-        public void Add(TDomain domainObj)
+        public virtual void Add(TDomain domainObj)
         {
             if (this.memorySource != null)
             {
@@ -90,7 +71,7 @@ namespace InMemoryDB.Core
             }
         }
 
-        public void Update(TDomain domainObj)
+        public virtual void Update(TDomain domainObj)
         {
             if (this.memorySource != null)
             {
@@ -102,13 +83,13 @@ namespace InMemoryDB.Core
             }
         }
 
-        public void Delete(TDomain domainObj)
+        public virtual void Delete(TDomain domainObj)
         {
             if (this.memorySource != null)
             {
                 Type typ = typeof(TDomain);
-                SerializableKeyValuePair<Type, TDomain> mc = new SerializableKeyValuePair<Type, TDomain>(typ, domainObj);
-                this.memorySource.Remove(mc);
+                int index = this.memorySource.FindIndex(a => a.Key == typ.Name && a.Value.Id == domainObj.Id);
+                this.memorySource.RemoveAt(index);
             }
         }
 
@@ -120,9 +101,8 @@ namespace InMemoryDB.Core
                 List<TDomain> byType = this.memorySource.Where(c => c.Key == typ.Name).Select(s => s.Value).ToList();
                 for (int i = 0; i < byType.Count; i++)
                 {
-                    TDomain oldDomain = this.memorySource.Where(w => w.Value.Id == byType[i].Id).FirstOrDefault().Value;
-                    SerializableKeyValuePair<Type, TDomain> mc = new SerializableKeyValuePair<Type, TDomain>(typ, oldDomain);
-                    this.memorySource.Remove(mc);
+                    int index = this.memorySource.FindIndex(a => a.Key == typ.Name && a.Value.Id == byType[i].Id);
+                    this.memorySource.RemoveAt(index);
                 }
             }
         }
@@ -131,12 +111,11 @@ namespace InMemoryDB.Core
         {
             if (this.memorySource != null)
             {
-                Type typ = typeof(TDomain);
                 this.memorySource.Clear();
             }
         }
 
-        public bool Exist(TDomain domainObj)
+        public virtual bool Exist(TDomain domainObj)
         {
             bool result = false;
 
@@ -151,7 +130,7 @@ namespace InMemoryDB.Core
             return result;
         }
 
-        public bool ExistById(Guid id)
+        public virtual bool ExistById(Guid id)
         {
             bool result = false;
 
@@ -179,6 +158,40 @@ namespace InMemoryDB.Core
             }
         }
 
+        public event EventHandler<LoadContentEventArgs<TDomain>> LoadContentEvent;
+
+        protected virtual void OnLoadContent(LoadContentEventArgs<TDomain> e)
+        {
+            EventHandler<LoadContentEventArgs<TDomain>> handler = this.LoadContentEvent;
+            if (handler != null)
+            {
+                handler(this, e);
+
+                if (e.MemorySource != null)
+                {
+                    this.memorySource = e.MemorySource;
+                }
+            }
+        }
+
+        public void LoadContent(FileInfo fileInfo)
+        {
+            if (this.memorySource != null && this.memorySource.Count > 0)
+            {
+                this.memorySource.Clear();
+            }
+
+            XmlSerializer serializer = XmlSerializer.FromTypes(new[] { typeof(List<SerializableKeyValuePair<Type, TDomain>>) })[0];
+            using (TextReader rdr = new StreamReader(fileInfo.FullName))
+            {
+                LoadContentEventArgs<TDomain> e = new LoadContentEventArgs<TDomain>();
+                e.XmlSerializer = serializer;
+                e.TextReader = rdr;
+                this.OnLoadContent(e);
+                rdr.Close();
+            }
+        }
+
         public void LoadContent(string filename)
         {
             if (this.memorySource != null && this.memorySource.Count > 0)
@@ -192,7 +205,6 @@ namespace InMemoryDB.Core
                 this.memorySource = (List<SerializableKeyValuePair<Type, TDomain>>)serializer.Deserialize(rdr);
                 rdr.Close();
             }
-
         }
     }
 }
