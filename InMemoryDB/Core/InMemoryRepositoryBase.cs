@@ -33,10 +33,14 @@ namespace InMemoryDB.Core
 
         protected InMemoryRepositoryBase()
         {
-            this.memorySource = new List<SerializableKeyValuePair<Type,TDomain>>(); 
+            this.memorySource = new List<SerializableKeyValuePair<Type,TDomain>>();
+            this.LoadEvent = new LoadContentEventer<TDomain>(this.memorySource);
         }
 
         public List<SerializableKeyValuePair<Type, TDomain>> MemorySource { get { return this.memorySource; } }
+
+        public LoadContentEventer<TDomain> LoadEvent { get; private set; }
+
 
         public int Count()
         {
@@ -63,7 +67,7 @@ namespace InMemoryDB.Core
 
         public virtual void Add(TDomain domainObj)
         {
-            if (this.memorySource != null)
+            if (memorySource != null)
             {
                 Type typ = typeof(TDomain);
                 SerializableKeyValuePair<Type, TDomain> mc = new SerializableKeyValuePair<Type, TDomain>(typ, domainObj);
@@ -158,22 +162,6 @@ namespace InMemoryDB.Core
             }
         }
 
-        public event EventHandler<LoadContentEventArgs<TDomain>> LoadContentEvent;
-
-        protected virtual void OnLoadContent(LoadContentEventArgs<TDomain> e)
-        {
-            EventHandler<LoadContentEventArgs<TDomain>> handler = this.LoadContentEvent;
-            if (handler != null)
-            {
-                handler(this, e);
-
-                if (e.MemorySource != null)
-                {
-                    this.memorySource = e.MemorySource;
-                }
-            }
-        }
-
         public void LoadContent(FileInfo fileInfo)
         {
             if (this.memorySource != null && this.memorySource.Count > 0)
@@ -187,7 +175,8 @@ namespace InMemoryDB.Core
                 LoadContentEventArgs<TDomain> e = new LoadContentEventArgs<TDomain>();
                 e.XmlSerializer = serializer;
                 e.TextReader = rdr;
-                this.OnLoadContent(e);
+                this.LoadEvent.OnLoadContent(e);
+                this.memorySource = this.LoadEvent.ValueArgs;
                 rdr.Close();
             }
         }

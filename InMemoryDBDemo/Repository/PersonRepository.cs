@@ -7,22 +7,22 @@
 
     using InMemoryDB.Core;
 
-    internal class DemoClassShortRepository : InMemoryRepositoryBase<DemoClassShort>
+    internal class PersonRepository : InMemoryRepositoryBase<Person>
     {
-        public override IEnumerable<DemoClassShort> FindAll()
+        public override IEnumerable<Person> FindAll()
         {
-            List<DemoClassShort> result = null;
+            List<Person> result = null;
             if (this.MemorySource != null)
             {
-                result = this.MemorySource.Select(s => s.Value).ToList<DemoClassShort>();
+                result = this.MemorySource.Select(s => s.Value).ToList<Person>();
             }
 
             return result;
         }
 
-        public override DemoClassShort FindById(Guid id)
+        public override Person FindById(Guid id)
         {
-            DemoClassShort result = default(DemoClassShort);
+            Person result = default(Person);
 
             if (this.MemorySource != null)
             {
@@ -35,9 +35,9 @@
             return result;
         }
 
-        public override IEnumerable<DemoClassShort> FindBy(Expression<Func<DemoClassShort, bool>> predicate)
+        public override IEnumerable<Person> FindBy(Expression<Func<Person, bool>> predicate)
         {
-            IQueryable<DemoClassShort> src = this.MemorySource.Select(s => s.Value).AsQueryable();
+            IQueryable<Person> src = this.MemorySource.Select(s => s.Value).AsQueryable();
             return src.Where(predicate);
         }
     }

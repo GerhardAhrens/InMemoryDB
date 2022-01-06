@@ -43,7 +43,7 @@
             repository.DeleteAllByType();
             //repository.LoadContent(@"c:\temp\test.xml");
             FileInfo fi = new FileInfo(@"c:\temp\test.xml");
-            repository.LoadContentEvent += Repository_LoadContentEvent;
+            repository.LoadEvent.LoadContentEvent += Repository_LoadContentEvent;
             repository.LoadContent(fi);
 
 
@@ -65,6 +65,11 @@
             Console.WriteLine($"Count={repository.CountByType()}", ConsoleColor.Yellow);
             bool exist = repository.Exist(result2);
             Console.WriteLine($"Exist:{exist}");
+
+            PersonRepository repositoryPerson = new PersonRepository();
+            Person person = new Person("Gerhard", "Ahrens", PersonType.Administrator);
+            repositoryPerson.Add(person);
+            repositoryPerson.SaveContent(@"c:\temp\testPerson.xml");
 
             Console.ReadKey();
         }

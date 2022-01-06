@@ -12,10 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DemoClass\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\InMemoryDB\InMemoryDB.csproj" />
   </ItemGroup>
 
